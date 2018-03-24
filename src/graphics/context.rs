@@ -95,10 +95,11 @@ impl GraphicsContext {
         let (window, gl_context, device, mut factory, screen_render_target, depth_view) =
             gfx_window_sdl::init(&video, window_builder)?;
 
-        GraphicsContext::set_vsync(video, window_mode.vsync)?;
+        // GraphicsContext::set_vsync(video, window_mode.vsync)?;
 
         let display_index = window.display_index()?;
-        let dpi = window.subsystem().display_dpi(display_index)?;
+        let dpi_result = window.subsystem().display_dpi(display_index);
+        let dpi = dpi_result.unwrap_or((90.,90.,90./2.0_f32.sqrt()));
 
         // GFX SETUP
         let mut encoder: gfx::Encoder<
